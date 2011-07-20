@@ -12,12 +12,23 @@ our $VERSION = '0.01';
 
 extends 'Test::Builder::Module';
 
+has engine => (
+    is      => 'ro',
+    isa     => 'Str',
+    default => 'js',
+);
+
 has lib => (
     is      => 'ro',
     isa     => 'Str',
     default => sub { (JS->new->find_js_path('jslint'))[0] },
 );
-has errors => (is => 'rw', isa => 'ArrayRef[Str]', default => sub { [] });
+
+has errors => (
+    is      => 'rw',
+    isa     => 'ArrayRef[Str]',
+    default => sub { [] },
+);
 
 sub ok {
     my ($self, $path, $arg_ref) = @_;
@@ -58,6 +69,12 @@ sub _jslint {
     }
 
     return 1;
+}
+
+sub _test_js {
+    my ($self) = @_;
+    my $engine = $self->engine;
+    return `$engine -? 2>&1`;
 }
 
 __PACKAGE__->meta->make_immutable;

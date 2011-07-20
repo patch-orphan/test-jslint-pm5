@@ -11,6 +11,7 @@ my $jslint = Test::JSLint->new;
 $jslint->ok('foo.js');
 $jslint->ok('bar.js');
 $jslint->ok('baz.js');
-diag $jslint->lib;
+
+diag $jslint->_test_js;
 
 done_testing();
